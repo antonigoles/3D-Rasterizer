@@ -99,5 +99,5 @@ build/*
 bin
 
 
-libraries/SDL32/
-libraries/SDL64/
+libraries/SDL32/*
+libraries/SDL64/*

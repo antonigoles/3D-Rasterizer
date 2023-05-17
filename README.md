@@ -4,9 +4,12 @@
 ---
 * CMake >=3.21
 * Ninja
+* SDL2
 
 ### **How to build**
 ---
+
+1. Add SDL32 or SDL64 to libraries/
 
 ```sh
 cd ./build
