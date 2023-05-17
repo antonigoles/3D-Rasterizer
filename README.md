@@ -3,7 +3,7 @@
 ### **Prerequisites**
 ---
 * CMake >=3.21
-* Ninja >=3.21
+* Ninja
 
 ### **How to build**
 ---
