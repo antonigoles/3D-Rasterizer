@@ -3,21 +3,21 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <Engine/Debug.h>
 
-namespace Engine 
+namespace Engine::Loader
 {
-
     class MeshFileLoader
     {
         private:
             std::string filepath;
             int current_line_index = 0;
-            std::vector<Vector3> vertices;
-            Mesh * loaded_mesh;
+            std::vector<Engine::Core::Vector3> vertices;
+            Engine::Core::Mesh * loaded_mesh;
 
             void read_triangle(std::string &line) 
             {
-                Polygon p = Polygon();
+                Engine::Core::Polygon p = Engine::Core::Polygon();
                 std::string parsed_number = "";
                 std::vector<int> indexes;
                 for ( auto c : line ) {
@@ -39,9 +39,6 @@ namespace Engine
                 if ( indexes.size() < 3 ) 
                     throw std::runtime_error("Error while loading a mesh file: Not enough arguments on line " + current_line_index);
                 
-                std::cout << "[Loader] Loaded polygon ";
-                p.print_polygon();
-                std::cout << "\n";
                 p.vertices[0] = vertices[indexes[0]];
                 p.vertices[1] = vertices[indexes[1]];
                 p.vertices[2] = vertices[indexes[2]];
@@ -57,9 +54,6 @@ namespace Engine
                         parsed_number += c; 
                     else {
                         if ( parsed_number.size() > 0 ) {
-                            std::cout << "[Loader] parsed number: " << 
-                                parsed_number << " to " << stof(parsed_number) << "\n";
-
                             floats.push_back( stof(parsed_number) );
                         }
                         parsed_number = "";
@@ -74,8 +68,7 @@ namespace Engine
                 if ( floats.size() < 3 ) 
                     throw std::runtime_error("Error while loading a mesh file: Not enough arguments on line " + current_line_index);
                 
-                Vector3 v3 = Vector3( floats[0], floats[1], floats[2] );
-                std::cout << "[Loader] Loaded vertex: " << v3 << "\n";
+                Engine::Core::Vector3 v3 = Engine::Core::Vector3( floats[0], floats[1], floats[2] );
                 vertices.push_back( v3 );
             }
 
@@ -104,33 +97,32 @@ namespace Engine
             MeshFileLoader(std::string &path) {
                 filepath = path;
                 current_line_index = 0;
-                loaded_mesh = new Mesh();
+                loaded_mesh = new Engine::Core::Mesh();
             }
 
-            Mesh *load_mesh() 
+            Engine::Core::Mesh *load_mesh() 
             {   
-                std::cout << "[Loader] Loading a file \n";
+                Engine::Debug::logrich("Loading a 3D file " + filepath);
                 std::ifstream mesh_file(filepath);
                 std::string current_line; 
                 while ( std::getline(mesh_file, current_line) ) 
                 {
                     try {
-                        std::cout << "[Loader] Parsing line " << current_line_index << "\n";
                         parse_next_line(current_line);
                     } catch( std::runtime_error error ) {
-                        std::cout << "[Loader] [ERROR] " << error.what() << "\n";
+                        Engine::Debug::logrich("[Loader] [ERROR] " + *(error.what()) );
                     }
                 }
 
+                mesh_file.close();
                 return loaded_mesh;
             };
     };
 
-    Mesh * load_mesh_from_native_engine_file(std::string path)
+    Engine::Core::Mesh * load_mesh_from_native_engine_file(std::string path)
     {
-        std::cout << "[Loader] Loading mesh from a file... " << path << "\n";
         MeshFileLoader *loader = new MeshFileLoader( path );
-        Mesh *loaded_mesh = loader->load_mesh();
+        Engine::Core::Mesh *loaded_mesh = loader->load_mesh();
 
         return loaded_mesh;
     }

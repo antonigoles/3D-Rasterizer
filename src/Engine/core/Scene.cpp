@@ -1,4 +1,4 @@
-#pragma once
+
 
 #include <Engine/core/EngineObject.h>
 #include <vector>
@@ -9,6 +9,6 @@ namespace Engine::Core
     {
         public:
             Scene() {};
-            std::vector<EngineObject> engine_objects;       
+            std::vector<EngineObject> engine_objects;   
     };
 }

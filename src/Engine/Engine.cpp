@@ -1,6 +1,7 @@
 #include <stdio.h> /* printf and fprintf */
 #include <SDL2/SDL.h> /* macOS- and GNU/Linux-specific */
-
+#include <Engine/Events.h>
+#include <Engine/core/core.h>
 
 /* Sets constants */
 #define WIDTH 1280
@@ -8,6 +9,9 @@
 
 namespace Engine
 {
+
+
+
     SDL_Window *initialize_window() 
     {
         /* Initialises data */
@@ -43,6 +47,11 @@ namespace Engine
         return window;
     }
 
+    void switch_scene( Engine::Core::Scene * newScene ) 
+    {
+        // TO IMPLEMENT
+    }
+
     void handle_window_events(SDL_Window *window, bool &running)
     {	
         SDL_Event ev; 
@@ -55,6 +64,17 @@ namespace Engine
                     break;
             }
         }	  
+
+        Engine::Events::EngineEvent * eev = Engine::Events::poll_event();
+        while ( eev ) 
+        {
+            switch (ev.type) 
+            {
+                case ENGINE_SWITCH_SCENE:
+                    switch_scene( ((Engine::Events::SwitchSceneEvent)(eev)) );
+                    break;
+            }
+        }	  
     }
 
     void handle_engine_loop(SDL_Window *window, bool &running ) 
@@ -64,6 +84,5 @@ namespace Engine
             handle_window_events(window, running);
         }
     }
-
 }
 

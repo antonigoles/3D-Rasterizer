@@ -4,7 +4,7 @@
 #include <Engine/core/Polygon.h>
 #include <iostream>
 
-namespace Engine
+namespace Engine::Core
 {
     struct Mesh
     {
@@ -15,6 +15,6 @@ namespace Engine
                 pol.print_polygon();
                 std::cout<<"\n";
             }
-        }
+        };
     };
 }
