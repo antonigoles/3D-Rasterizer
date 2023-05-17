@@ -1,6 +1,6 @@
 # 🐪 **3D Rasterizer**
 
-### **Prerequisite**
+### **Prerequisites**
 ---
 * CMake >=3.21
 * Ninja >=3.21
