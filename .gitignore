@@ -97,3 +97,7 @@ build/*
 !build/modules
 
 bin
+
+
+libraries/SDL32/
+libraries/SDL64/
