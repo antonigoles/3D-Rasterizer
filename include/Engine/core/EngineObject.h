@@ -1,4 +1,6 @@
-#include "core.h"
+#pragma once
+
+#include <Engine/core/Mesh.h>
 
 namespace Engine
 {

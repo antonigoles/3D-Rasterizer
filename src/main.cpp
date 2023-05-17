@@ -1,4 +1,5 @@
-#include "Engine/Engine.h"
+#include <Engine/resources/resources.h>
+#include <Engine/Engine.h>
 
 void test() 
 {
@@ -10,7 +11,7 @@ void test()
 int	main(int argc, char **argv)
 {
 	
-	test();
+	// test();
 
 	SDL_Window *window = Engine::initialize_window();
 	bool running = true;

@@ -1,5 +1,7 @@
+#pragma once
+
 #include <vector>
-#include "core.h"
+#include <Engine/core/Polygon.h>
 #include <iostream>
 
 namespace Engine

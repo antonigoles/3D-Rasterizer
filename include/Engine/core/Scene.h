@@ -1,4 +1,6 @@
-#include "core.h"
+#pragma once
+
+#include <Engine/core/EngineObject.h>
 #include <vector>
 
 namespace Engine

@@ -59,11 +59,11 @@ target_link_libraries(
 
 # COPY OVER STATIC FILES
 
-# message(STATUS "Copying all assets to destination folder...")
-# file(
-#     COPY assets
-#     DESTINATION ${OUTPUT_DIR}
-# )
+message(STATUS "Copying all assets to destination folder...")
+file(
+    COPY assets
+    DESTINATION ${OUTPUT_DIR}
+)
 
 message(STATUS "Copying all dependencies to destination folder...")
 file(GLOB PROJECT_DEPENDENCIES ${SDL2_LIBRARY}/*.dll)
