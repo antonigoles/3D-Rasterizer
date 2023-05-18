@@ -3,6 +3,7 @@
 #include <Engine/Debug.h>
 #include <SDL2/SDL_ttf.h>
 #include <filesystem>
+#include <Engine/Engine.h>
 
 namespace Engine::Draw 
 {
@@ -10,11 +11,17 @@ namespace Engine::Draw
 
     void draw_simple_triangle( Engine::Core::Vector2 screen_pts[3], Engine::Core::Color color, SDL_Renderer * renderer) 
     {
+        int SCREEN_W = 0;
+        int SCREEN_H = 0;
+        SDL_GetRendererOutputSize(renderer, &SCREEN_W, &SCREEN_H);
+
+        // Engine::Debug::logrich( std::to_string(SCREEN_W) + " - " + std::to_string(SCREEN_H) );
+
         const std::vector< SDL_Vertex > verts =
         {
-            { SDL_FPoint{ screen_pts[0].x, screen_pts[0].y }, SDL_Color{ 255, 0, 0, 255 }, SDL_FPoint{ 0 }, },
-            { SDL_FPoint{ screen_pts[1].x, screen_pts[1].y }, SDL_Color{ 0, 0, 255, 255 }, SDL_FPoint{ 0 }, },
-            { SDL_FPoint{ screen_pts[2].x, screen_pts[2].y }, SDL_Color{ 0, 255, 0, 255 }, SDL_FPoint{ 0 }, },
+            { SDL_FPoint{ screen_pts[0].x + (SCREEN_W)/2, screen_pts[0].y + (SCREEN_H)/2 }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
+            { SDL_FPoint{ screen_pts[1].x + (SCREEN_W)/2, screen_pts[1].y + (SCREEN_H)/2 }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
+            { SDL_FPoint{ screen_pts[2].x + (SCREEN_W)/2, screen_pts[2].y + (SCREEN_H)/2 }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
         };
         
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, SDL_ALPHA_OPAQUE );

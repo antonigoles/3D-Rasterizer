@@ -27,6 +27,8 @@ namespace Engine::Tests
             Engine::Core::Scene *scene = new Engine::Core::Scene(); 
             Engine::Core::EngineObject *cubeObject = new Engine::Core::EngineObject();
 
+            cubeObject->position.x = 2;
+
             cubeObject->set_mesh( *mesh );
 
             scene->engine_objects.push_back( cubeObject );
@@ -40,9 +42,9 @@ namespace Engine::Tests
         void test1() 
         {
             Engine::Core::Vector2 screen_pts[3]{ 
-                Engine::Core::Vector2(300,300), 
-                Engine::Core::Vector2(450, 600), 
-                Engine::Core::Vector2(600, 400)
+                Engine::Core::Vector2(0,0), 
+                Engine::Core::Vector2(200, 200), 
+                Engine::Core::Vector2(440, 50)
             };
             Engine::Draw::draw_simple_triangle(
                 screen_pts,
@@ -62,6 +64,6 @@ namespace Engine::Tests
 
     void run_each_frame_tests()
     {
-        EachFrame::test1();
+        // EachFrame::test1();
     }
 }

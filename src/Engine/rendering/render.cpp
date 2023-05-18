@@ -4,6 +4,12 @@
 #include <SDL2/SDL.h>
 #include <Engine/rendering/draw.h>
 #include <vector>
+#include <Engine/Engine.h>
+#include <Engine/core/math.h>
+#include <iostream>
+
+#define v2 Engine::Core::Vector2
+#define v3 Engine::Core::Vector2
 
 namespace Engine::Render
 {
@@ -15,6 +21,46 @@ namespace Engine::Render
     {
         polygon_renders_last_frame++;
         
+        float scale = 20.0f;
+        float near_plane = 10.0f;
+
+        polygon.print_polygon();
+        std::cout << "\n";
+
+        polygon.vertices[0] = polygon.vertices[0] - objectPosition;
+        polygon.vertices[1] = polygon.vertices[1] - objectPosition;
+        polygon.vertices[2] = polygon.vertices[2] - objectPosition;
+
+        
+
+        float 
+            f1 = std::max( near_plane/(polygon.vertices[0].z ), 0.0000001f ),
+            f2 = std::max( near_plane/(polygon.vertices[1].z ), 0.0000001f ),
+            f3 = std::max( near_plane/(polygon.vertices[2].z ), 0.0000001f )
+        ;
+
+        v2 screen_pts[3] {
+            v2(
+                polygon.vertices[0].x * scale * f1,
+                polygon.vertices[0].y * scale  * f1
+            ),
+
+            v2(
+                polygon.vertices[1].x * scale * f2,
+                polygon.vertices[1].y * scale * f2
+            ),
+
+            v2(
+                polygon.vertices[2].x * scale * f3,
+                polygon.vertices[2].y * scale * f3
+            )
+        };
+
+
+        Engine::Draw::draw_simple_triangle(
+            screen_pts, Engine::Core::Color(200, 200, 200), Engine::renderer 
+        );
+
     }
 
     void draw_engine_object(Engine::Core::EngineObject * engineObject)

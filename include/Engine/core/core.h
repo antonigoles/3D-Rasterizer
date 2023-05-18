@@ -10,8 +10,8 @@ namespace Engine::Core
     {
         public:
             Color();
-            Color(int8_t r, int8_t g, int8_t b);   
-            int8_t r,g,b;
+            Color(uint8_t r, uint8_t g, uint8_t b);   
+            uint8_t r,g,b;
     };
 
     class Vector2
@@ -22,6 +22,55 @@ namespace Engine::Core
 
             friend std::ostream& operator<<(std::ostream& os, const Vector2& v2);
             float x,y;
+
+            Vector2 operator+(Vector2 const& obj)
+            {
+                Vector2 res;
+                res.x = this->x + obj.x;
+                res.y = this->y + obj.y;
+                return res;
+            }
+
+            Vector2 operator-(Vector2 const& obj)
+            {
+                Vector2 res;
+                res.x = this->x - obj.x;
+                res.y = this->y - obj.y;
+
+                return res;
+            }
+
+            Vector2 operator*(Vector2 const& obj)
+            {
+                Vector2 res;
+                res.x = this->x * obj.x;
+                res.y = this->y * obj.y;
+                return res;
+            }
+
+            Vector2 operator*(float const& n)
+            {
+                Vector2 res;
+                res.x = this->x * n;
+                res.y = this->y * n;
+                return res;
+            }
+
+            Vector2 operator/(Vector2 const& obj)
+            {
+                Vector2 res;
+                res.x = this->x / obj.x;
+                res.y = this->y / obj.y;
+                return res;
+            }
+
+            Vector2 operator/(float const& n)
+            {
+                Vector2 res;
+                res.x = this->x / n;
+                res.y = this->y / n;
+                return res;
+            }
     };
 
     class Vector3
@@ -32,6 +81,60 @@ namespace Engine::Core
 
             friend std::ostream& operator<<(std::ostream& os, const Vector3& v3);
             float x,y,z;
+
+            Vector3 operator+(Vector3 const& obj)
+            {
+                Vector3 res;
+                res.x = this->x + obj.x;
+                res.y = this->y + obj.y;
+                res.z = this->z + obj.z;
+                return res;
+            }
+
+            Vector3 operator-(Vector3 const& obj)
+            {
+                Vector3 res;
+                res.x = this->x - obj.x;
+                res.y = this->y - obj.y;
+                res.z = this->z - obj.z;
+                return res;
+            }
+
+            Vector3 operator*(Vector3 const& obj)
+            {
+                Vector3 res;
+                res.x = this->x * obj.x;
+                res.y = this->y * obj.y;
+                res.z = this->z * obj.z;
+                return res;
+            }
+
+            Vector3 operator*(float const& n)
+            {
+                Vector3 res;
+                res.x = this->x * n;
+                res.y = this->y * n;
+                res.z = this->z * n;
+                return res;
+            }
+
+            Vector3 operator/(Vector3 const& obj)
+            {
+                Vector3 res;
+                res.x = this->x / obj.x;
+                res.y = this->y / obj.y;
+                res.z = this->z / obj.z;
+                return res;
+            }
+
+            Vector3 operator/(float const& n)
+            {
+                Vector3 res;
+                res.x = this->x / n;
+                res.y = this->y / n;
+                res.z = this->z / n;
+                return res;
+            }
     };
 
     class Polygon
