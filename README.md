@@ -5,6 +5,9 @@
 * CMake >=3.21
 * Ninja
 * SDL2
+* SDL2_Image
+* SDL2_TTF
+* C++17
 
 ### **How to build**
 ---
