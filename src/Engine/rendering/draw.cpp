@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <Engine/core/core.h>
 
-namespace Engine::Drawing 
+namespace Engine::Draw 
 {
     void draw_polygon
     ( 

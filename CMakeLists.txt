@@ -35,15 +35,19 @@ link_directories(
 
 # INCLUDE FILES THAT SHOULD BE COMPILED:
 
-file(GLOB_RECURSE SRC "src/*.cpp" "src/*.h")
+AUX_SOURCE_DIRECTORY(src/                   D_MAIN)
+AUX_SOURCE_DIRECTORY(src/Engine/            D_ENGINE)
+AUX_SOURCE_DIRECTORY(src/Engine/core        D_CORE)
+AUX_SOURCE_DIRECTORY(src/Engine/rendering   D_RENDERING)
+AUX_SOURCE_DIRECTORY(src/Engine/resources   D_RESOURCES)
 
-message(STATUS "Add source files:")
-foreach(SRC_FILE IN LISTS SRC)
-    message(STATUS "${SRC_FILE}")
-endforeach()
-message(STATUS "")
+# message(STATUS "Add source files:")
+# foreach(SRC_FILE IN LISTS SRC)
+#     message(STATUS "${SRC_FILE}")
+# endforeach()
+# message(STATUS "")
 
-add_executable(${PROJECT_NAME} ${SRC})
+add_executable(${PROJECT_NAME} ${D_CORE} ${D_RESOURCES} ${D_RENDERING} ${D_ENGINE} ${D_MAIN})
 
 
 # LINK PROGRAM

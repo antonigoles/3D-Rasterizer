@@ -2,6 +2,8 @@
 #include <SDL2/SDL.h> /* macOS- and GNU/Linux-specific */
 #include <Engine/Events.h>
 #include <Engine/core/core.h>
+#include <Engine/Debug.h>
+#include <Engine/rendering/render.h>
 
 /* Sets constants */
 #define WIDTH 1280
@@ -47,9 +49,18 @@ namespace Engine
         return window;
     }
 
-    void switch_scene( Engine::Core::Scene * newScene ) 
+    Engine::Core::Scene * current_scene;
+
+    void switch_scene( Engine::Core::Scene * new_scene ) 
     {
         // TO IMPLEMENT
+        current_scene = new_scene;
+
+    }
+
+    void draw_scene(SDL_Window *window) 
+    {
+        Engine::Render::draw_scene(current_scene, window);
     }
 
     void handle_window_events(SDL_Window *window, bool &running)
@@ -70,8 +81,8 @@ namespace Engine
         {
             switch (ev.type) 
             {
-                case ENGINE_SWITCH_SCENE:
-                    switch_scene( ((Engine::Events::SwitchSceneEvent)(eev)) );
+                case ENGINE_DEFAULT_EVENT:
+                    Engine::Debug::logrich("An event has been called");
                     break;
             }
         }	  
@@ -82,6 +93,7 @@ namespace Engine
         while ( running ) 
         {
             handle_window_events(window, running);
+            draw_scene(window);
         }
     }
 }
