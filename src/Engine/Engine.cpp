@@ -6,6 +6,7 @@
 #include <Engine/Debug.h>
 #include <Engine/rendering/render.h>
 #include <Engine/rendering/draw.h>
+#include <Engine/Tests.h>
 
 /* Sets constants */
 #define WIDTH 1280
@@ -107,6 +108,8 @@ namespace Engine
             draw_scene(window);
 
             Engine::Render::draw_debug(window, renderer);
+
+            Engine::Tests::run_each_frame_tests();
 
             SDL_RenderPresent( renderer );
         }

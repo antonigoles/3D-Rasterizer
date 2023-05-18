@@ -5,7 +5,7 @@
 int	main(int argc, char **argv)
 {
 
-	Engine::Tests::run_tests();
+	Engine::Tests::run_single_tests();
 
 	SDL_Window *window = Engine::initialize_window();
 	bool running = true;

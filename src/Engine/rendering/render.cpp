@@ -7,20 +7,24 @@
 
 namespace Engine::Render
 {
+    double frame_render_time = 0;
+    int polygon_renders_last_frame = 0;
+
 
     void draw_polygon(Engine::Core::Polygon polygon, Engine::Core::Vector3 objectPosition) 
     {
-
+        polygon_renders_last_frame++;
+        
     }
 
     void draw_engine_object(Engine::Core::EngineObject * engineObject)
     {
-        // for ( auto polygon : engineObject->mesh.polygons ) {
-        //     draw_polygon(polygon, engineObject->position);
-        // }
+        for ( auto polygon : engineObject->mesh.polygons ) {
+            draw_polygon(polygon, engineObject->position);
+        }
     }
 
-    double frame_render_time = 0;
+    
     void draw_scene(Engine::Core::Scene * current_scene, SDL_Window *window, SDL_Renderer * renderer) 
     {
         // start performance metrics
@@ -28,6 +32,7 @@ namespace Engine::Render
         // clear screen 
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
 	    SDL_RenderClear( renderer );
+        polygon_renders_last_frame=0;
 
 
         for ( auto engineObject : current_scene->engine_objects ) {
@@ -39,7 +44,7 @@ namespace Engine::Render
         std::chrono::duration<double> elapsed_seconds = end-start;
         double frame_time = elapsed_seconds.count();
         SDL_Delay( (Uint32)std::max(8-frame_time,(double)0) );
-        frame_render_time = frame_time + std::max(2-frame_time*1000,(double)0)/1000;
+        frame_render_time = frame_time + std::max(1-frame_time*1000,(double)0)/1000;
     }
 
     void draw_debug(SDL_Window *window, SDL_Renderer *renderer)
@@ -49,7 +54,9 @@ namespace Engine::Render
 
         std::vector<std::pair<std::string, Engine::Core::Color>> lines{
             { "Debug info:", Engine::Core::Color(255,255,255) },
-            { std::to_string(1/frame_render_time) + " FPS", Engine::Core::Color(120,120,120) }
+            { std::to_string(1/frame_render_time) + " FPS", Engine::Core::Color(120,120,120) },
+            { "frame_render_time: " + std::to_string(frame_render_time), Engine::Core::Color(120,120,120) },
+            { "polygon_renders_last_frame: " + std::to_string(polygon_renders_last_frame), Engine::Core::Color(120,120,120) },
         };
 
         for ( int i = 0; i<lines.size(); i++ ) {

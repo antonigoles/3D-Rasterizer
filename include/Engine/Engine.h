@@ -16,5 +16,7 @@ namespace Engine
     void switch_scene(Engine::Core::Scene * new_scene);
 
     extern Engine::Core::Scene * current_scene;
+
+    extern SDL_Renderer *renderer;
     
 }

@@ -3,12 +3,20 @@
 
 namespace Engine::Tests 
 {
-    // Load 3D file
-    void test1();
+    namespace Single 
+    {
+        void test1();
+        void test2();
+    }
+    
+    namespace EachFrame
+    {
+        void test1();
+    }
 
-    // Render 3D cube
-    void test2();
+    
 
-    // Run all tests
-    void run_tests();
+    void run_single_tests();
+
+    void run_each_frame_tests();
 }

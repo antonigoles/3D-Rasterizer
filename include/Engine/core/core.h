@@ -10,8 +10,18 @@ namespace Engine::Core
     {
         public:
             Color();
-            Color(int r, int g, int b);   
-            int r,g,b;
+            Color(int8_t r, int8_t g, int8_t b);   
+            int8_t r,g,b;
+    };
+
+    class Vector2
+    {
+        public:
+            Vector2();
+            Vector2(float x, float y);   
+
+            friend std::ostream& operator<<(std::ostream& os, const Vector2& v2);
+            float x,y;
     };
 
     class Vector3
@@ -63,5 +73,4 @@ namespace Engine::Core
             Scene();
             std::vector<EngineObject*> engine_objects;   
     };
-       
 }

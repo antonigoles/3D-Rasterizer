@@ -8,9 +8,18 @@ namespace Engine::Draw
 {
 
 
-    void draw_polygon( Engine::Core::Polygon * polygon, Engine::Core::Camera * camera, SDL_Renderer * renderer ) 
+    void draw_simple_triangle( Engine::Core::Vector2 screen_pts[3], Engine::Core::Color color, SDL_Renderer * renderer) 
     {
+        const std::vector< SDL_Vertex > verts =
+        {
+            { SDL_FPoint{ screen_pts[0].x, screen_pts[0].y }, SDL_Color{ 255, 0, 0, 255 }, SDL_FPoint{ 0 }, },
+            { SDL_FPoint{ screen_pts[1].x, screen_pts[1].y }, SDL_Color{ 0, 0, 255, 255 }, SDL_FPoint{ 0 }, },
+            { SDL_FPoint{ screen_pts[2].x, screen_pts[2].y }, SDL_Color{ 0, 255, 0, 255 }, SDL_FPoint{ 0 }, },
+        };
+        
+        SDL_SetRenderDrawColor( renderer, 0, 0, 0, SDL_ALPHA_OPAQUE );
 
+        SDL_RenderGeometry( renderer, nullptr, verts.data(), verts.size(), nullptr, 0 );
     }
 
     void draw_text(std::string content, int x, int y, int size, Engine::Core::Color color, SDL_Window *window, SDL_Renderer *renderer) 
