@@ -24,14 +24,14 @@ cd ..
 ####  DONE
 * ✅ 3D Mesh imports from files (.3d custom extension)
 * ✅ Logger
-* ✅ Logger
+* ✅ On screen debugger
+* ✅ Simple Engine Event system
+* ✅ Simple Scene management
 
 ####  IN PROGRESS
-* ❔ Engine Event system
+* ❔ Scene rendering
 
 ####  TODO
-* ❌ Scene rendering
-* ❌ Scene management
 * ❌ Camera functionality
 * ❌ Vector math & Matrix math
 * ❌ Mesh transformations

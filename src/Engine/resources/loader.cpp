@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <Engine/Debug.h>
+#include <filesystem>
 
 namespace Engine::Loader
 {
@@ -104,6 +105,16 @@ namespace Engine::Loader
             {   
                 Engine::Debug::logrich("Loading a 3D file " + filepath);
                 std::ifstream mesh_file(filepath);
+
+                bool exist = std::filesystem::exists(filepath);
+
+                if (!exist) {
+                    Engine::Debug::errorrich("Could not find " + filepath);
+                }
+
+                if (mesh_file.fail()) {
+                    Engine::Debug::errorrich("Failed loading a 3D file: " + filepath);
+                }
                 std::string current_line; 
                 while ( std::getline(mesh_file, current_line) ) 
                 {

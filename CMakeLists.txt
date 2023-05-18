@@ -5,7 +5,7 @@ project(3DRasterizer)
 # SETUP VARIABLES:
 
 # list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build/modules)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/include)
 set(OUTPUT_DIR "${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${OUTPUT_DIR}")
@@ -58,6 +58,7 @@ target_link_libraries(
         SDL2main
         SDL2
         SDL2_image
+        SDL2_ttf
 )
 
 

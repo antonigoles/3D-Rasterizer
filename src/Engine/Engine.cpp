@@ -1,9 +1,11 @@
 #include <stdio.h> /* printf and fprintf */
 #include <SDL2/SDL.h> /* macOS- and GNU/Linux-specific */
+#include <SDL2/SDL_ttf.h>
 #include <Engine/Events.h>
 #include <Engine/core/core.h>
 #include <Engine/Debug.h>
 #include <Engine/rendering/render.h>
+#include <Engine/rendering/draw.h>
 
 /* Sets constants */
 #define WIDTH 1280
@@ -12,7 +14,7 @@
 namespace Engine
 {
 
-
+    SDL_Renderer *renderer;
 
     SDL_Window *initialize_window() 
     {
@@ -25,8 +27,12 @@ namespace Engine
         * Returns 0 on success or a negative error code on failure using SDL_GetError().
         */
         if (SDL_Init( SDL_INIT_EVERYTHING ) != 0) {
-            fprintf(stderr, "SDL failed to initialise: %s\n", SDL_GetError());
+            Engine::Debug::errorrich("SDL failed to initialise: " + (std::string)SDL_GetError());
             return NULL;
+        }
+
+        if ( TTF_Init() < 0 ) {
+            Engine::Debug::errorrich("Error initializing SDL_ttf: " + (std::string)TTF_GetError());
         }
 
         /* Creates a SDL window */
@@ -45,7 +51,12 @@ namespace Engine
             return NULL;
         }
 
-        winSurface = SDL_GetWindowSurface( window );
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED );
+        if ( !renderer ) {
+            Engine::Debug::errorrich("Error creating renderer: " + (std::string)SDL_GetError()); 
+            return NULL;
+        }
+
         return window;
     }
 
@@ -60,7 +71,7 @@ namespace Engine
 
     void draw_scene(SDL_Window *window) 
     {
-        Engine::Render::draw_scene(current_scene, window);
+        Engine::Render::draw_scene(current_scene, window, renderer);
     }
 
     void handle_window_events(SDL_Window *window, bool &running)
@@ -94,6 +105,10 @@ namespace Engine
         {
             handle_window_events(window, running);
             draw_scene(window);
+
+            Engine::Render::draw_debug(window, renderer);
+
+            SDL_RenderPresent( renderer );
         }
     }
 }

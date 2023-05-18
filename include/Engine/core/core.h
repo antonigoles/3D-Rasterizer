@@ -5,6 +5,15 @@
 
 namespace Engine::Core
 {
+
+    class Color
+    {
+        public:
+            Color();
+            Color(int r, int g, int b);   
+            int r,g,b;
+    };
+
     class Vector3
     {
         public:
@@ -52,7 +61,7 @@ namespace Engine::Core
     {
         public:
             Scene();
-            std::vector<EngineObject> engine_objects;   
+            std::vector<EngineObject*> engine_objects;   
     };
        
 }

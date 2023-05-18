@@ -39,7 +39,12 @@ namespace Engine
 
         void logrich(std::string message, int debug_level = 0) {
             if ( debug_level <= DEBUG_LEVEL ) 
-                std::cout << BOLDYELLOW << "[" <<  __PRETTY_FUNCTION__ << "]: " << WHITE << message << RESET << "\n";
+                std::cout << BOLDYELLOW << "[" <<  "Logger" << "]: " << WHITE << message << RESET << "\n";
+        }
+
+        void errorrich(std::string message, int debug_level = 0) {
+            if ( debug_level <= DEBUG_LEVEL ) 
+                std::cout << BOLDRED << "[" <<  "Error" << "]: " << WHITE << message << RESET << "\n";
         }
     }
 }

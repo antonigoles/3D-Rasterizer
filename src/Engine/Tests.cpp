@@ -1,6 +1,7 @@
 #include <string>
 #include <Engine/resources/loader.h>
 #include <Engine/core/core.h>
+#include <Engine/Engine.h>
 
 
 namespace Engine::Tests
@@ -25,7 +26,9 @@ namespace Engine::Tests
 
         cubeObject->set_mesh( *mesh );
 
-        scene->engine_objects.push_back( *cubeObject );
+        scene->engine_objects.push_back( cubeObject );
+
+        Engine::switch_scene(scene);
     }
 
     void run_tests() 
