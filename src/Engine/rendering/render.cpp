@@ -21,15 +21,15 @@ namespace Engine::Render
     {
         polygon_renders_last_frame++;
         
-        float scale = 1000.0f;
-        float near_plane = 5.0f;
+        float scale = 8000.0f;
+        float near_plane = 50.0f;
 
         // polygon.print_polygon();
         // std::cout << "\n";
 
-        Engine::Math::v3_rot(&polygon.vertices[0], objectRotation.x, 0, 0, Engine::Core::Vector3(0,0,0) );
-        Engine::Math::v3_rot(&polygon.vertices[1], objectRotation.x, 0, 0, Engine::Core::Vector3(0,0,0) );
-        Engine::Math::v3_rot(&polygon.vertices[2], objectRotation.x, 0, 0, Engine::Core::Vector3(0,0,0) );
+        Engine::Math::v3_rot(&polygon.vertices[0], objectRotation.x, objectRotation.y, objectRotation.z, Engine::Core::Vector3(0.5f,0.5f,0.5f) );
+        Engine::Math::v3_rot(&polygon.vertices[1], objectRotation.x, objectRotation.y, objectRotation.z, Engine::Core::Vector3(0.5f,0.5f,0.5f) );
+        Engine::Math::v3_rot(&polygon.vertices[2], objectRotation.x, objectRotation.y, objectRotation.z, Engine::Core::Vector3(0.5f,0.5f,0.5f) );
 
 
         polygon.vertices[0] = polygon.vertices[0] - objectPosition;
@@ -45,9 +45,9 @@ namespace Engine::Render
         SDL_GetRendererOutputSize(renderer, &SCREEN_W, &SCREEN_H);
 
         float 
-            f1 = std::max( 1/(polygon.vertices[0].z+near_plane ), 0.000001f ),
-            f2 = std::max( 1/(polygon.vertices[1].z+near_plane ), 0.000001f ),
-            f3 = std::max( 1/(polygon.vertices[2].z+near_plane ), 0.000001f )
+            f1 = std::max( 1/(polygon.vertices[0].z+near_plane ), 0.000000000000000001f ),
+            f2 = std::max( 1/(polygon.vertices[1].z+near_plane ), 0.000000000000000001f ),
+            f3 = std::max( 1/(polygon.vertices[2].z+near_plane ), 0.000000000000000001f )
         ;
 
         v2 screen_pts[3] {
@@ -67,16 +67,18 @@ namespace Engine::Render
             )
         };
 
+        Engine::Core::Vector3 polygon_normal = Engine::Math::polygon_normal(polygon);
+        float polygon_br = std::min(1 / Engine::Math::v3_angle(Engine::Core::Vector3(0,0,1), polygon_normal), 1.0f);
 
         Engine::Draw::draw_simple_triangle(
-            screen_pts, Engine::Core::Color(200, 200, 200), Engine::renderer 
+            screen_pts, Engine::Core::Color(200 * polygon_br, 200 * polygon_br, 200 * polygon_br), Engine::renderer 
         );
 
     }
 
     void draw_engine_object(Engine::Core::EngineObject * engineObject)
     {
-        for ( auto polygon : engineObject->mesh.polygons ) {
+        for ( auto &polygon : engineObject->mesh.polygons ) {
             draw_polygon(polygon, engineObject->position, engineObject->rotation);
         }
     }
@@ -92,7 +94,7 @@ namespace Engine::Render
         polygon_renders_last_frame=0;
 
 
-        for ( auto engineObject : current_scene->engine_objects ) {
+        for ( auto &engineObject : current_scene->engine_objects ) {
             draw_engine_object(engineObject);
         }    
 

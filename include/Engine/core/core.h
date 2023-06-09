@@ -140,13 +140,14 @@ namespace Engine::Core
 
     };
 
-    class Mat3x3
-    {
-        public:
-            Mat3x3();
-            Mat3x3( float values[3][3] );   
-            float values[3][3];       
-    };
+    // class Mat3x3
+    // {
+    //     public:
+    //         Mat3x3();
+    //         Mat3x3( float values[3][3] );   
+    //         float values[3][3];    
+    //         float * operator[] (int i) const { return values[i]; };
+    // };
 
     class Polygon
     {

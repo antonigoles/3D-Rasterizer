@@ -57,7 +57,7 @@ namespace Engine::Tests
         // [Requires test2 in Single_Tests]
         void test2(float deltaTime) 
         {
-            Engine::current_scene->engine_objects[0]->rotateBy(deltaTime * 1000,0,0);
+            Engine::current_scene->engine_objects[0]->rotateBy(deltaTime * 1500, deltaTime * 1500,0);
         }
     }
 

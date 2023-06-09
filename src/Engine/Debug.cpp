@@ -26,7 +26,7 @@ namespace Engine
     namespace Debug
     {
 
-        bool DRAW_EDGES_ONLY = true;
+        bool DRAW_EDGES_ONLY = false;
 
         void logln(std::string message, int debug_level = 0) 
         {

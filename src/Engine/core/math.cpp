@@ -57,89 +57,48 @@ namespace Engine::Math
         pt.y = std::min( height, std::max( 0, pt.y ));
     }
 
-    void mat3x3_v3_multi(Engine::Core::Vector3 * vec, Engine::Core::Mat3x3 mat)
+    void mat3x3_v3_multi(Engine::Core::Vector3 * vec, float mat[3][3])
     {
         // Engine::Debug::logrich(std::to_string(mat.values[2][1]));
-        vec->x = vec->x * mat.values[0][0] + vec->y * mat.values[0][1] + vec->z * mat.values[0][2];
-        vec->y = vec->x * mat.values[1][0] + vec->y * mat.values[1][1] + vec->z * mat.values[1][2];
-        vec->z = vec->x * mat.values[2][0] + vec->y * mat.values[2][1] + vec->z * mat.values[2][2];
+        vec->x = vec->x * mat[0][0] + vec->y * mat[0][1] + vec->z * mat[0][2];
+        vec->y = vec->x * mat[1][0] + vec->y * mat[1][1] + vec->z * mat[1][2];
+        vec->z = vec->x * mat[2][0] + vec->y * mat[2][1] + vec->z * mat[2][2];
+    }
+
+    void mat3x3_mat3x3_multi(float mat1[3][3], float mat2[3][3])
+    {
+
+        int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r; mat1[0][0];
     }
 
     void v3_rot(Engine::Core::Vector3 * point, float rx, float ry, float rz, Engine::Core::Vector3 axis)
     {
         typedef Engine::Core::Vector3 v3;
         typedef Engine::Core::Vector2 v2;
-        typedef Engine::Core::Mat3x3 mat3x3;
+        // typedef Engine::Core::Mat3x3 mat3x3;
         
-        float radX = (PI * rx)/180;
-        float radY = (PI * ry)/180;
-        float radZ = (PI * rz)/180;
-
-        // Rx(rx)
-
-        float rxmat_values[3][3] =
-        {
-            {1, 0, 0},
-            {0, (float)cosf(radX), (float)sinf(radX)},
-            {0, -(float)sinf(radX), (float)cosf(radX) },
-        };
-
-        mat3x3 rxmat = mat3x3(
-            rxmat_values
-        );
-
-        v3 rx_temp_point = *point - axis;
-        mat3x3_v3_multi(&rx_temp_point,rxmat);
-
-        point->x = rx_temp_point.x + axis.x;
-        point->y = rx_temp_point.y + axis.y;
-        point->z = rx_temp_point.z + axis.z;
-        
-        
-
-
-        // Ry(ry)
-
-        float rymat_values[3][3] =
-        {
-            {cosf(radY), 0, sinf(radY)},
-            {0, 1, 0},
-            {-sinf(radY), 0, cosf(radY) },
-        };
-
-        mat3x3 rymat = mat3x3(
-            rymat_values
-        );
-
-        v3 ry_temp_point = *point - axis;
-        mat3x3_v3_multi(&ry_temp_point,rymat);
-
-        point->x = ry_temp_point.x + axis.x;
-        point->y = ry_temp_point.y + axis.y;
-        point->z = ry_temp_point.z + axis.z;
-
-
+        float y = (PI * rx)/180;
+        float b = (PI * ry)/180;
+        float a = (PI * rz)/180;
 
         // Rz(rz)
 
-        float rzmat_values[3][3] =
+        float rmat[3][3] =
         {
-            {cosf(radZ), -sinf(radZ), 0},
-            {sinf(radZ), cosf(radZ), 0},
-            {0, 0, 1 },
+            {cosf(a)*cosf(b), cosf(a)*sinf(b)*sinf(y)-sinf(a)*cosf(y), cosf(a)*sinf(b)*cosf(y) + sinf(a)*sinf(y)},
+            {sinf(a)*cosf(b), sinf(a)*sinf(b)*sinf(y)+cosf(a)*cosf(y), sinf(a)*sinf(b)*cosf(y) - cosf(a)*sinf(y)},
+            {-sinf(b), cosf(b)*sinf(y), cosf(b)*cosf(y) },
         };
 
-        mat3x3 rzmat = mat3x3(
-            rzmat_values
-        );
 
         v3 rz_temp_point = *point - axis;
-        mat3x3_v3_multi(&rz_temp_point,rzmat);
+        mat3x3_v3_multi(&rz_temp_point, rmat);
 
         point->x = rz_temp_point.x + axis.x;
         point->y = rz_temp_point.y + axis.y;
         point->z = rz_temp_point.z + axis.z;
 
+    
 
     }
 
