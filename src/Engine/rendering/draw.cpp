@@ -1,9 +1,11 @@
 #include <SDL2/SDL.h>
 #include <Engine/core/core.h>
+#include <Engine/core/math.h>
 #include <Engine/Debug.h>
 #include <SDL2/SDL_ttf.h>
 #include <filesystem>
 #include <Engine/Engine.h>
+
 
 namespace Engine::Draw 
 {
@@ -17,16 +19,30 @@ namespace Engine::Draw
 
         // Engine::Debug::logrich( std::to_string(SCREEN_W) + " - " + std::to_string(SCREEN_H) );
 
-        const std::vector< SDL_Vertex > verts =
-        {
-            { SDL_FPoint{ screen_pts[0].x + (SCREEN_W)/2, screen_pts[0].y + (SCREEN_H)/2 }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
-            { SDL_FPoint{ screen_pts[1].x + (SCREEN_W)/2, screen_pts[1].y + (SCREEN_H)/2 }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
-            { SDL_FPoint{ screen_pts[2].x + (SCREEN_W)/2, screen_pts[2].y + (SCREEN_H)/2 }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
-        };
-        
-        SDL_SetRenderDrawColor( renderer, 0, 0, 0, SDL_ALPHA_OPAQUE );
+        SDL_Point p1 = SDL_Point{(int)screen_pts[0].x + SCREEN_W/2, (int)screen_pts[0].y + SCREEN_H/2};
+        SDL_Point p2 = SDL_Point{(int)screen_pts[1].x + SCREEN_W/2, (int)screen_pts[1].y + SCREEN_H/2};
+        SDL_Point p3 = SDL_Point{(int)screen_pts[2].x + SCREEN_W/2, (int)screen_pts[2].y + SCREEN_H/2};
 
-        SDL_RenderGeometry( renderer, nullptr, verts.data(), verts.size(), nullptr, 0 );
+        Engine::Math::normalize_SDL_Point(SCREEN_W, SCREEN_H, p1);
+        Engine::Math::normalize_SDL_Point(SCREEN_W, SCREEN_H, p2);
+        Engine::Math::normalize_SDL_Point(SCREEN_W, SCREEN_H, p3);
+
+
+        if ( !Engine::Debug::DRAW_EDGES_ONLY ) {
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, SDL_ALPHA_OPAQUE );
+            const std::vector< SDL_Vertex > verts =
+            {
+                { SDL_FPoint{ (float)p1.x, (float)p1.y }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
+                { SDL_FPoint{ (float)p2.x, (float)p2.y }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
+                { SDL_FPoint{ (float)p3.x, (float)p3.y }, SDL_Color{ color.r, color.g, color.b, 255 }, SDL_FPoint{ 0 }, },
+            };
+            SDL_RenderGeometry( renderer, nullptr, verts.data(), verts.size(), nullptr, 0 );
+        } else {
+            SDL_SetRenderDrawColor( renderer, 255, 255, 255, 255 );
+            SDL_Point pts[4] = {p1, p2, p3, p1};
+            SDL_RenderDrawLines(renderer, pts, 4 );
+        }
+        
     }
 
     void draw_text(std::string content, int x, int y, int size, Engine::Core::Color color, SDL_Window *window, SDL_Renderer *renderer) 

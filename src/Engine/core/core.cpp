@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <Engine/core/core.h>
+#include <cmath>
 
 namespace Engine::Core
 {
@@ -45,6 +46,24 @@ namespace Engine::Core
         this->z=z;
     };   
 
+    Mat3x3::Mat3x3() 
+    {
+        for ( int i = 0; i<3; i++ )
+            for ( int j = 0; j<3; j++ )
+                values[i][j] = 0;
+    }
+
+    Mat3x3::Mat3x3( float values[3][3] ) 
+    {
+        for ( int i = 0; i<3; i++ )
+            for ( int j = 0; j<3; j++ )
+                this->values[i][j] = values[i][j];       
+    }
+
+    std::string Vector3::to_string() {
+        return "(" + std::to_string(x) + ',' + std::to_string(y) + ',' + std::to_string(z) + ')';
+    }; 
+
     std::ostream& operator<<(std::ostream& os, const Vector3& v3)
     {
         os << "(" << v3.x << ',' << v3.y << ',' << v3.z << ')';
@@ -72,14 +91,30 @@ namespace Engine::Core
         }
     };
 
+    EngineObject::EngineObject() 
+    {
+        this->rotation = Vector3(); 
+        this->position = Vector3(); 
+        this->scale = Vector3();
+    }
+
     void EngineObject::set_mesh(Mesh mesh) {
         this->mesh = mesh;
     };
+
+    void EngineObject::rotateBy(float x, float y, float z)
+    {
+        rotation.x = fmod( rotation.x + x, 360 );
+        rotation.y = fmod( rotation.y + y, 360 );
+        rotation.z = fmod( rotation.z + z, 360 );
+    }
 
     Camera::Camera() {
         this->rotation = Vector3(); 
         this->position = Vector3(); 
     };
+
+
 
 
     Scene::Scene() {};

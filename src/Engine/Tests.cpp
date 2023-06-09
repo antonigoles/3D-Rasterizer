@@ -27,7 +27,8 @@ namespace Engine::Tests
             Engine::Core::Scene *scene = new Engine::Core::Scene(); 
             Engine::Core::EngineObject *cubeObject = new Engine::Core::EngineObject();
 
-            cubeObject->position.x = 2;
+            cubeObject->position.x = 0.5;
+            cubeObject->position.y = 0.5;
 
             cubeObject->set_mesh( *mesh );
 
@@ -39,7 +40,7 @@ namespace Engine::Tests
     
     namespace EachFrame
     {
-        void test1() 
+        void test1(float deltaTime) 
         {
             Engine::Core::Vector2 screen_pts[3]{ 
                 Engine::Core::Vector2(0,0), 
@@ -52,6 +53,12 @@ namespace Engine::Tests
                 Engine::renderer
             );
         }
+
+        // [Requires test2 in Single_Tests]
+        void test2(float deltaTime) 
+        {
+            Engine::current_scene->engine_objects[0]->rotateBy(deltaTime * 1000,0,0);
+        }
     }
 
     
@@ -62,8 +69,9 @@ namespace Engine::Tests
         Single::test2();
     }
 
-    void run_each_frame_tests()
+    void run_each_frame_tests(float deltaTime)
     {
-        // EachFrame::test1();
+        // EachFrame::test1(deltaTime);
+        EachFrame::test2(deltaTime);
     }
 }

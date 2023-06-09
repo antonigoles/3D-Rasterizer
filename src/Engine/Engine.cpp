@@ -109,7 +109,7 @@ namespace Engine
 
             Engine::Render::draw_debug(window, renderer);
 
-            Engine::Tests::run_each_frame_tests();
+            Engine::Tests::run_each_frame_tests( Engine::Render::frame_render_time );
 
             SDL_RenderPresent( renderer );
         }

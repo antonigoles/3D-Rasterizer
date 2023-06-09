@@ -82,6 +82,8 @@ namespace Engine::Core
             friend std::ostream& operator<<(std::ostream& os, const Vector3& v3);
             float x,y,z;
 
+            std::string to_string();
+
             Vector3 operator+(Vector3 const& obj)
             {
                 Vector3 res;
@@ -135,6 +137,15 @@ namespace Engine::Core
                 res.z = this->z / n;
                 return res;
             }
+
+    };
+
+    class Mat3x3
+    {
+        public:
+            Mat3x3();
+            Mat3x3( float values[3][3] );   
+            float values[3][3];       
     };
 
     class Polygon
@@ -158,15 +169,16 @@ namespace Engine::Core
         public: 
             Mesh mesh;
             Vector3 position;
+            Vector3 rotation;
             Vector3 scale;
+            EngineObject();
             void set_mesh(Mesh mesh);
+            void rotateBy(float x, float y, float z);
     };
 
-    class Camera
+    class Camera: public EngineObject
     {
         public:
-            Vector3 position;
-            Vector3 rotation;
             Camera();
     };
 
@@ -174,6 +186,7 @@ namespace Engine::Core
     {
         public:
             Scene();
+            Camera *camera;
             std::vector<EngineObject*> engine_objects;   
     };
 }

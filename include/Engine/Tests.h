@@ -11,12 +11,13 @@ namespace Engine::Tests
     
     namespace EachFrame
     {
-        void test1();
+        void test1(float deltaTime);
+        void test2(float deltaTime);
     }
 
     
 
     void run_single_tests();
 
-    void run_each_frame_tests();
+    void run_each_frame_tests(float deltaTime);
 }
