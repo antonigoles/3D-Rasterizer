@@ -138,4 +138,9 @@ namespace Engine::Loader
         return loaded_mesh;
     }
 
+    Engine::Core::Mesh * load_mesh_from_obj_file(std::string path)
+    {
+        // TODO: Implement
+    }
+
 }

@@ -11,7 +11,7 @@ namespace Engine::Draw
 {
 
 
-    void draw_simple_triangle( Engine::Core::Vector2 screen_pts[3], Engine::Core::Color color, SDL_Renderer * renderer) 
+    void draw_simple_triangle( std::vector<Engine::Core::Vector2> screen_pts, Engine::Core::Color color, SDL_Renderer * renderer) 
     {
         int SCREEN_W = 0;
         int SCREEN_H = 0;
@@ -19,9 +19,9 @@ namespace Engine::Draw
 
         // Engine::Debug::logrich( std::to_string(SCREEN_W) + " - " + std::to_string(SCREEN_H) );
 
-        SDL_Point p1 = SDL_Point{(int)screen_pts[0].x + SCREEN_W/2, (int)screen_pts[0].y + SCREEN_H/2};
-        SDL_Point p2 = SDL_Point{(int)screen_pts[1].x + SCREEN_W/2, (int)screen_pts[1].y + SCREEN_H/2};
-        SDL_Point p3 = SDL_Point{(int)screen_pts[2].x + SCREEN_W/2, (int)screen_pts[2].y + SCREEN_H/2};
+        SDL_Point p1 = SDL_Point{(int)(screen_pts)[0].x + SCREEN_W/2, (int)(screen_pts)[0].y + SCREEN_H/2};
+        SDL_Point p2 = SDL_Point{(int)(screen_pts)[1].x + SCREEN_W/2, (int)(screen_pts)[1].y + SCREEN_H/2};
+        SDL_Point p3 = SDL_Point{(int)(screen_pts)[2].x + SCREEN_W/2, (int)(screen_pts)[2].y + SCREEN_H/2};
 
         Engine::Math::normalize_SDL_Point(SCREEN_W, SCREEN_H, p1);
         Engine::Math::normalize_SDL_Point(SCREEN_W, SCREEN_H, p2);

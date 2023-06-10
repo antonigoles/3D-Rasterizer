@@ -9,8 +9,8 @@
 #include <Engine/Tests.h>
 
 /* Sets constants */
-#define WIDTH 1280
-#define HEIGHT 720
+#define WIDTH 1440
+#define HEIGHT 960
 
 namespace Engine
 {

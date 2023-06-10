@@ -47,17 +47,17 @@ namespace Engine::Tests
                 Engine::Core::Vector2(200, 200), 
                 Engine::Core::Vector2(440, 50)
             };
-            Engine::Draw::draw_simple_triangle(
-                screen_pts,
-                Engine::Core::Color(255,255,255),
-                Engine::renderer
-            );
+            // Engine::Draw::draw_simple_triangle(
+            //     screen_pts,
+            //     Engine::Core::Color(255,255,255),
+            //     Engine::renderer
+            // );
         }
 
         // [Requires test2 in Single_Tests]
         void test2(float deltaTime) 
         {
-            Engine::current_scene->engine_objects[0]->rotateBy(deltaTime * 1500, deltaTime * 1500,0);
+            Engine::current_scene->engine_objects[0]->rotateBy(0, deltaTime * 1500,0);
         }
     }
 

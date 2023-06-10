@@ -7,15 +7,45 @@
 #include <Engine/Engine.h>
 #include <Engine/core/math.h>
 #include <iostream>
+#include <set>
 
 #define v2 Engine::Core::Vector2
 #define v3 Engine::Core::Vector2
 
 namespace Engine::Render
 {
+
+    struct RenderQueueElement
+    {
+        float zIndex;
+        std::vector<Engine::Core::Vector2> screen_pts;
+        float brightness;
+        
+        bool operator==(const RenderQueueElement& a) const{
+            return a.zIndex == zIndex;
+        }
+
+        bool operator>=(const RenderQueueElement& a) const{
+            return  zIndex >= a.zIndex;
+        }
+
+        bool operator<=(const RenderQueueElement& a) const{
+            return  zIndex <=  a.zIndex;
+        }
+
+        bool operator>(const RenderQueueElement& a) const{
+            return  zIndex >  a.zIndex;
+        }
+
+        bool operator<(const RenderQueueElement& a) const{
+            return  zIndex <  a.zIndex;
+        }
+
+    };
+
     float frame_render_time = 0;
     int polygon_renders_last_frame = 0;
-
+    std::multiset<RenderQueueElement> render_queue;
 
     void draw_polygon(Engine::Core::Polygon polygon, Engine::Core::Vector3 objectPosition, Engine::Core::Vector3 objectRotation) 
     {
@@ -50,7 +80,7 @@ namespace Engine::Render
             f3 = std::max( 1/(polygon.vertices[2].z+near_plane ), 0.000000000000000001f )
         ;
 
-        v2 screen_pts[3] {
+        std::vector<v2> screen_pts {
             v2(
                 polygon.vertices[0].x * scale * f1,
                 polygon.vertices[0].y * scale * f1
@@ -68,11 +98,19 @@ namespace Engine::Render
         };
 
         Engine::Core::Vector3 polygon_normal = Engine::Math::polygon_normal(polygon);
-        float polygon_br = std::min(1 / Engine::Math::v3_angle(Engine::Core::Vector3(0,0,1), polygon_normal), 1.0f);
+        float polygon_br = std::min( 1 / Engine::Math::v3_angle(Engine::Core::Vector3(1,0,1), polygon_normal), 1.0f);
+  
+        RenderQueueElement rqe = { 
+            (polygon.vertices[0].z + polygon.vertices[1].z + polygon.vertices[2].z) * 0.3333f, 
+            screen_pts, 
+            polygon_br 
+        };
 
-        Engine::Draw::draw_simple_triangle(
-            screen_pts, Engine::Core::Color(200 * polygon_br, 200 * polygon_br, 200 * polygon_br), Engine::renderer 
-        );
+        render_queue.insert(rqe);
+
+        // Engine::Draw::draw_simple_triangle(
+        //     screen_pts, Engine::Core::Color(200 * polygon_br, 200 * polygon_br, 200 * polygon_br), Engine::renderer 
+        // );
 
     }
 
@@ -96,7 +134,30 @@ namespace Engine::Render
 
         for ( auto &engineObject : current_scene->engine_objects ) {
             draw_engine_object(engineObject);
-        }    
+        }  
+
+        // perform render queue
+
+        Engine::Debug::logrich("Rendered");
+
+        std::multiset<RenderQueueElement>::reverse_iterator e;
+
+        for (e = render_queue.rbegin(); e != render_queue.rend(); e++) 
+        {
+            Engine::Debug::logln( std::to_string( (*e).zIndex ) + " - " + std::to_string((*e).brightness) );
+            // Engine::Debug::logrich( std::to_string(e.screen_pts[0].x) );
+            Engine::Draw::draw_simple_triangle(
+                (*e).screen_pts,
+                Engine::Core::Color(
+                    200 * (*e).brightness, 
+                    200 * (*e).brightness, 
+                    200 * (*e).brightness
+                ), 
+                Engine::renderer
+            );   
+        }
+
+        render_queue.clear();
 
         // end performance metrics
         auto end = std::chrono::steady_clock::now();
@@ -108,7 +169,7 @@ namespace Engine::Render
 
     void draw_debug(SDL_Window *window, SDL_Renderer *renderer)
     {
-        int DEBUG_SIZE = 10;
+        int DEBUG_SIZE = 12;
         int LEFT_OFFSET = 5;
 
         std::vector<std::pair<std::string, Engine::Core::Color>> lines{
