@@ -30,14 +30,19 @@ cd ..
 * ✅ On screen debugger
 * ✅ Simple Engine Event system
 * ✅ Simple Scene management
+* ✅ Camera functionality
+* ✅ Vector math & Matrix math
+* ✅ Mesh transformations
+* ✅ Scene rendering
 
 ####  IN PROGRESS
-* ❔ Scene rendering
+* ❌ Quaternions support
+
 
 ####  TODO
-* ❌ Camera functionality
-* ❌ Vector math & Matrix math
-* ❌ Mesh transformations
-* ❌ Quaternion support
+* ❌ Fix perspecitve
+* ❌ Add more goals
+
+
 
 </details>
